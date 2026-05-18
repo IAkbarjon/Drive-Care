@@ -17,10 +17,12 @@ router.get('/', async (req, res) => {
                         )
                     ) FILTER (WHERE mp.material_id IS NOT NULL),
                     '[]'::json
-                ) AS MATERIALS
+                ) AS materials
             FROM products p
-            LEFT JOIN product_types t ON p.type_id = t.id
-            LEFT JOIN materials_products mp ON p.id = mp.product_id
+            LEFT JOIN product_types t
+                ON p.type_id = t.id
+            LEFT JOIN material_products mp
+                ON p.id = mp.product_id
             GROUP BY p.id, t.type_name
             ORDER BY p.id
         `)

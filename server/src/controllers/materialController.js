@@ -5,12 +5,34 @@ const selectedQuery = `
   SELECT
     m.*,
     t.type_name,
-    SUM(mp.materials_required) as required_amount
+    SUM(mp.materials_required) as required_amount,
+    COALESCE(
+      jsonb_agg(
+        DISTINCT jsonb_build_object(
+          'id', ms.id,
+          'supplier_id', ms.supplier_id,
+          'cost_price', ms.cost_price,
+          'supplier_name', s.supplier_name,
+          'supplier_type', s.supplier_type,
+          'inn', s.inn,
+          'rating', s.rating,
+          'work_start_date', s.work_start_date
+        )
+      ) FILTER (
+        WHERE ms.material_id IS NOT NULL
+        AND ms.supplier_id IS NOT NULL
+      ),
+      '[]'::jsonb
+    ) AS suppliers
   FROM materials m
-  LEFT JOIN materials_products mp
+  LEFT JOIN material_products mp
     ON m.id = mp.material_id
   LEFT JOIN material_types t
     ON m.type_id = t.id
+  LEFT JOIN material_suppliers ms
+    ON m.id = ms.material_id
+  LEFT JOIN suppliers s
+    ON ms.supplier_id = s.id
   GROUP BY m.id, t.type_name
   ORDER BY m.id
 `

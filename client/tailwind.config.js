@@ -5,12 +5,9 @@ export default {
       colors: {
         main: {
           primary: '#FFFFFF',
-          secondary: '#F1E6D6',
-          accent: '#6E7D4A',
+          secondary: '#D9E8F5',
+          accent: '#2E5E82',
         }
-      },
-      fontFamily: {
-        'book-antiqua': ['Book Antiqua', 'Georgia', 'serif']
       }
     }
   }

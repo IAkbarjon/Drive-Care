@@ -1,6 +1,7 @@
 import { Button, Card } from 'react-bootstrap'
+import { PencilFill } from 'react-bootstrap-icons'
 
-function MaterialView({ material, onEdit, onSelect }) {
+function MaterialView({ material, onEdit, showMaterials, showSuppliers }) {
     return (
         <Card className='w-[420px]'>
             <Card.Header className='flex flex-wrap-reverse justify-between'>
@@ -24,12 +25,22 @@ function MaterialView({ material, onEdit, onSelect }) {
             <Card.Footer className='flex justify-end gap-3'>
                 <Button
                     variant='outline-secondary'
-                    onClick={() => onSelect(material)}
+                    size='sm'
+                    onClick={() => showMaterials()}
                 >Товары материала</Button>
                 <Button
+                    variant='outline-secondary'
+                    size='sm'
+                    onClick={() => showSuppliers()}
+                >Поставщики</Button>
+                <Button
                     variant='secondary'
-                    onClick={() => onEdit(material)}
-                >Редактировать</Button>
+                    size='sm'
+                    onClick={() => onEdit()}
+                    title='Редактировать'
+                >
+                    <PencilFill />
+                </Button>
             </Card.Footer>
         </Card>
     )

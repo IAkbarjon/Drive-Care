@@ -42,5 +42,7 @@ export function calculateProductCount(materialTypeId, productTypeId, materialCou
 
     const materialsConsumption = param1 * param2 * productType.coefficient
     const usefulMaterialAmount = materialCount * (1 - materialType.losses_percent)
+    console.log('materials consumption:', materialsConsumption)
+    console.log('useful material amount', usefulMaterialAmount)
     return Math.floor(usefulMaterialAmount / materialsConsumption)
 }

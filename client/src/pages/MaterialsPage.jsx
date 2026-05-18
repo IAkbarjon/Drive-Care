@@ -4,6 +4,7 @@ import useData from '../hooks/useData'
 import MaterialInputModal from '../components/modal/MaterialInputModal'
 import LoadingPage from './LoadingPage'
 import MaterialProducts from '../components/modal/MaterialProducts'
+import MaterialSuppliersModal from '../components/modal/MaterialSuppliersModal'
 
 function MaterialsPage() {
     const [mode, setMode] = useState(null)
@@ -16,6 +17,11 @@ function MaterialsPage() {
             setMode(null)
         }
     }, [selectedMaterial])
+
+    const closeModals = () => {
+        setMode(null)
+        setSelectedMaterial(null)
+    }
     
     if (isLoading) {
         return <LoadingPage />
@@ -39,13 +45,17 @@ function MaterialsPage() {
                     <MaterialView
                         key={material.id}
                         material={material}
-                        onEdit={editedMaterial => {
-                            setSelectedMaterial(editedMaterial)
+                        onEdit={() => {
+                            setSelectedMaterial(material)
                             setMode('input')
                         }}
-                        onSelect={selectedMaterial => {
-                            setSelectedMaterial(selectedMaterial)
+                        showMaterials={() => {
+                            setSelectedMaterial(material)
                             setMode('products')
+                        }}
+                        showSuppliers={() => {
+                            setSelectedMaterial(material)
+                            setMode('suppliers')
                         }}
                     />
                 ))}
@@ -53,20 +63,21 @@ function MaterialsPage() {
 
             {mode === 'input' && (
                 <MaterialInputModal
-                    onClose={() => {
-                        setMode(null)
-                        setSelectedMaterial(null)
-                    }}
+                    onClose={() => closeModals()}
                     editedMaterial={selectedMaterial}
                 />
             )}
 
             {mode === 'products' && (
                 <MaterialProducts
-                    onClose={() => {
-                        setMode(null)
-                        setSelectedMaterial(null)
-                    }}
+                    onClose={() => closeModals()}
+                    material={selectedMaterial}
+                />
+            )}
+
+            {mode === 'suppliers' && (
+                <MaterialSuppliersModal
+                    onClose={() => closeModals()}
                     material={selectedMaterial}
                 />
             )}
